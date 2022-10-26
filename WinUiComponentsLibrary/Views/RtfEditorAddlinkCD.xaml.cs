@@ -8,8 +8,10 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -22,8 +24,23 @@ namespace WinUiComponentsLibrary.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RtfEditorAddlinkCD : ContentDialog
+    public sealed partial class RtfEditorAddlinkCD : ContentDialog, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        private string _Link = "";
+        public string Link
+        {
+            get => _Link;
+            private set
+            {
+                if (_Link != value)
+                {
+                    _Link = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public RtfEditorAddlinkCD()
         {
             this.InitializeComponent();
@@ -34,9 +51,18 @@ namespace WinUiComponentsLibrary.Views
             this.InitializeComponent();
             if (!linkName.IsStringNullOrEmptyOrWhiteSpace())
             {
-
+                richEditName.Document.SetText(Microsoft.UI.Text.TextSetOptions.FormatRtf, linkName);
             }
+            if (!linkAdress.IsStringNullOrEmptyOrWhiteSpace())
+            {
+                Link = linkAdress;
+            }
+        }
 
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            // Raise the PropertyChanged event, passing the name of the property whose value has changed.
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -266,18 +266,21 @@ namespace WinUiComponentsLibrary.Views
             }
         }
 
-        private void AppBarItem_AppBarAddLink_Click(object sender, RoutedEventArgs e)
+        private async void AppBarItem_AppBarAddLink_Click(object sender, RoutedEventArgs e)
         {
             ITextSelection selectedText = richedit.Document.Selection;
             if (selectedText != null)
             {
-
-                selectedText.Link = "\"http://www.bing.com\"";
-                var size = selectedText.CharacterFormat.Size;
-                if (size <= 9)
-                    selectedText.CharacterFormat.Size = 10.5f;
-                else if (size + 0.5 < 200)
-                    selectedText.CharacterFormat.Size += 0.5f;
+                RtfEditorAddlinkCD rtfEditorAddlinkCD = new RtfEditorAddlinkCD(selectedText.Text, selectedText.Link)
+                {
+                    Title = "Ajouter un lien",
+                    XamlRoot = this.XamlRoot,
+                };
+                var result = await rtfEditorAddlinkCD.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    selectedText.Link = $"\"{rtfEditorAddlinkCD.Link}\"";
+                }
             }
         }
 
