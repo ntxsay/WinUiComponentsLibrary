@@ -33,6 +33,9 @@ namespace WinUiComponentsLibrary.Views
         {
             this.InitializeComponent();
             if (!linkName.IsStringNullOrEmptyOrWhiteSpace())
+            {
+
+            }
 
         }
     }
