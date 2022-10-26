@@ -104,7 +104,7 @@ namespace WinUiComponentsLibrary.Views
         private void Btn_SelectedColor_Click(object sender, RoutedEventArgs e)
         {
             ITextSelection selectedText = richedit.Document.Selection;
-            if (selectedText != null)
+            if (selectedText != null && rectCurrentColor.Background != null)
             {
                 Color color = ((SolidColorBrush)rectCurrentColor.Background).Color;
                 ITextCharacterFormat charFormatting = selectedText.CharacterFormat;
@@ -258,6 +258,21 @@ namespace WinUiComponentsLibrary.Views
             ITextSelection selectedText = richedit.Document.Selection;
             if (selectedText != null)
             {
+                var size = selectedText.CharacterFormat.Size;
+                if (size <= 9)
+                    selectedText.CharacterFormat.Size = 10.5f;
+                else if (size + 0.5 < 200)
+                    selectedText.CharacterFormat.Size += 0.5f;
+            }
+        }
+
+        private void AppBarItem_AppBarAddLink_Click(object sender, RoutedEventArgs e)
+        {
+            ITextSelection selectedText = richedit.Document.Selection;
+            if (selectedText != null)
+            {
+
+                selectedText.Link = "\"http://www.bing.com\"";
                 var size = selectedText.CharacterFormat.Size;
                 if (size <= 9)
                     selectedText.CharacterFormat.Size = 10.5f;

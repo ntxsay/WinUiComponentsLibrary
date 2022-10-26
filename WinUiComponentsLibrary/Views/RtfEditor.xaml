@@ -77,6 +77,12 @@
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarSeparator />
+                <AppBarButton ToolTipService.ToolTip="Ajouter un lien" Label="Lien" Style="{StaticResource editingAppBarBtnStyle}" Click="AppBarItem_FontDecrease_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE71B;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator />
                 <AppBarButton ToolTipService.ToolTip="Couleur" Label="Couleur" Style="{StaticResource editingAppBarBtnStyle}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE8E8;"/>
