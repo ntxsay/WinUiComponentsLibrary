@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\CustomRichEditBox.xaml" />
+    <None Remove="Views\InlineEditor.xaml" />
     <None Remove="Views\RtfEditor.xaml" />
     <None Remove="Views\RtfEditorAddlinkCD.xaml" />
   </ItemGroup>
@@ -27,6 +28,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\AppHelpers\AppHelpers\AppHelpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\InlineEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
