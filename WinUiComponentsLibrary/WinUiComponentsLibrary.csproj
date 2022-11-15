@@ -10,6 +10,7 @@
     <Compile Remove="Views\CustomRichEditBox.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\CustomDatePicker.xaml" />
     <None Remove="Views\CustomRichEditBox.xaml" />
     <None Remove="Views\InlineEditor.xaml" />
     <None Remove="Views\RtfEditor.xaml" />
@@ -22,8 +23,8 @@
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
       <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
-      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221109.1" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,5 +47,13 @@
     <Page Update="Views\RtfEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Views\CustomDatePicker.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Remove="Views\CustomDatePicker.xaml" />
   </ItemGroup>
 </Project>
