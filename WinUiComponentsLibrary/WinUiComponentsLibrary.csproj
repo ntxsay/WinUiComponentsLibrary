@@ -10,6 +10,7 @@
     <Compile Remove="Views\CustomRichEditBox.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Views\ClosableIconablePivotItem.xaml" />
     <None Remove="Views\CustomDatePicker.xaml" />
     <None Remove="Views\CustomRichEditBox.xaml" />
     <None Remove="Views\InlineEditor.xaml" />
@@ -55,5 +56,11 @@
 
   <ItemGroup>
     <Resource Remove="Views\CustomDatePicker.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ClosableIconablePivotItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

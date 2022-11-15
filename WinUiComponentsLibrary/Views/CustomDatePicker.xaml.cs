@@ -115,11 +115,6 @@ namespace WinUiComponentsLibrary.Views
                     this._Month = value;
                     this.OnPropertyChanged();
                 }
-
-                //if (this.Mois != value)
-                //{
-                //    this.Mois = value;
-                //}
             }
         }
 
@@ -134,18 +129,6 @@ namespace WinUiComponentsLibrary.Views
                     this._Year = value;
                     this.OnPropertyChanged();
                 }
-
-                //if (value.IsStringNullOrEmptyOrWhiteSpace() || value == DateHelpers.NoAnswer)
-                //{
-                //    if (Annee != 0)
-                //        Annee = 0;
-                //}
-                //else if (value.All(a => char.IsNumber(a)))
-                //{
-                //    ushort year = Convert.ToUInt16(value);
-                //    if (Annee != year) 
-                //        Annee = year;
-                //}
             }
         }
 
@@ -158,14 +141,14 @@ namespace WinUiComponentsLibrary.Views
                 {
                     messageError = $"Vous devez spécifier l'année avant de valider le mois.";
                     exactDate = null;
-                    return "--/--/--/";
+                    return DateHelpers.NoAnswer;
                 }
                 else if (!Day.IsStringNullOrEmptyOrWhiteSpace() && Day != DateHelpers.NoAnswer &&
                     Month.IsStringNullOrEmptyOrWhiteSpace() || Month == DateHelpers.NoAnswer)
                 {
                     messageError = $"Vous devez spécifier le mois avant de valider le jour.";
                     exactDate = null;
-                    return "--/--/--/";
+                    return DateHelpers.NoAnswer;
                 }
                 else
                 {
@@ -181,13 +164,13 @@ namespace WinUiComponentsLibrary.Views
                         {
                             messageError = $"La date renseignée n'est pas valide.";
                             exactDate = null;
-                            return "--/--/--/";
+                            return DateHelpers.NoAnswer;
                         }
                         else
                         {
                             messageError = null;
                             exactDate = date;
-                            return date.ToString("dd/MM/yyyy");
+                            return date.ToShortDateString();
                         }
                     }
                     else if (!Month.IsStringNullOrEmptyOrWhiteSpace() && Month != DateHelpers.NoAnswer &&
@@ -203,7 +186,7 @@ namespace WinUiComponentsLibrary.Views
                     }
                     else if (!Year.IsStringNullOrEmptyOrWhiteSpace() && Year != DateHelpers.NoAnswer)
                     {
-                        var result = $"--/--/{Year}";
+                        var result = $"--/--/{Year:0000}";
 
                         messageError = null;
                         exactDate = null;
@@ -219,7 +202,7 @@ namespace WinUiComponentsLibrary.Views
             {
                 messageError = $"Une erreur inconnue s'est produite.";
                 exactDate = null;
-                return "--/--/--/";
+                return DateHelpers.NoAnswer;
             }
         }
 
@@ -253,6 +236,20 @@ namespace WinUiComponentsLibrary.Views
                         ushort year = Convert.ToUInt16(value);
                         if (Annee != year)
                             Annee = year;
+                    }
+                }
+                else if (comboBox.Tag.ToString() == "xDay")
+                {
+                    if (value.IsStringNullOrEmptyOrWhiteSpace() || value == DateHelpers.NoAnswer)
+                    {
+                        if (Jour != 0)
+                            Jour = 0;
+                    }
+                    else if (value.All(a => char.IsNumber(a)))
+                    {
+                        byte day = Convert.ToByte(value);
+                        if (Jour != day)
+                            Jour = day;
                     }
                 }
             }
@@ -348,7 +345,5 @@ namespace WinUiComponentsLibrary.Views
             // Raise the PropertyChanged event, passing the name of the property whose value has changed.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        
     }
 }
