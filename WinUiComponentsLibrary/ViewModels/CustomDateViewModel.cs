@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using AppHelpers.Dates;
+using System;
+using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace WinUiComponentsLibrary.ViewModels
@@ -6,6 +9,7 @@ namespace WinUiComponentsLibrary.ViewModels
     public class CustomDateViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public DateTime? Date { get; private set; }
 
         protected byte _Day;
         public byte Day
@@ -49,8 +53,8 @@ namespace WinUiComponentsLibrary.ViewModels
             }
         }
 
-        protected string? _DateParution;
-        public string? DateParution
+        protected string _DateParution;
+        public string DateParution
         {
             get => _DateParution;
             set
@@ -62,6 +66,24 @@ namespace WinUiComponentsLibrary.ViewModels
                 }
             }
         }
+
+        public string GetDate(out string messageError)
+        {
+            bool isDateCorrect = DateTime.TryParseExact($"{Day:00}/{Month:00}/{Year:0000}", "dd/MM/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal, out DateTime result);
+            if (!isDateCorrect)
+            {
+                messageError = $"La date renseignée n'est pas valide.";
+                Date = null;
+                return DateHelpers.NoAnswer;
+            }
+            else
+            {
+                messageError = null;
+                Date = result;
+                return result.ToShortDateString();
+            }
+        }
+
 
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
