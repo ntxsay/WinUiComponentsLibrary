@@ -1,37 +1,36 @@
 ﻿using Microsoft.UI.Composition;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using System;
 using WinRT;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
-    public class WindowBackgroundHelpers
+    public class WindowBackgroundHelpers : IDisposable
     {
         readonly Window window;
         public readonly AppWindow appWindow;
-       
-        public WindowBackgroundHelpers(Window _window) 
+        public readonly bool isMainWindow;
+
+        public WindowBackgroundHelpers(Window _window, bool _isMainWindow = false) 
         {
             window = _window;
             appWindow = WindowHelpers.GetAppWindowForCurrentWindow(window);
+            this.isMainWindow = _isMainWindow;
         }
 
-        public WindowBackgroundHelpers(Window _window, AppWindow _appWindow)
+        public WindowBackgroundHelpers(Window _window, AppWindow _appWindow, bool _isMainWindow = false)
         {
             window = _window;
             appWindow = _appWindow;
+            this.isMainWindow = _isMainWindow;
         }
 
         WindowsSystemDispatcherQueueHelper m_wsdqHelper; // See separate sample below for implementation
         Microsoft.UI.Composition.SystemBackdrops.MicaController m_micaController;
         Microsoft.UI.Composition.SystemBackdrops.DesktopAcrylicController m_acrylicController;
         Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration m_configurationSource;
-
-        public delegate void WinBackgroundActivatedEventHandler(object sender, WindowActivatedEventArgs args);
-        public event WinBackgroundActivatedEventHandler WinBackgroundActivatedRequested;
-
-        public delegate void WinBackgroundClosedEventHandler(object sender, WindowEventArgs args);
-        public event WinBackgroundClosedEventHandler WinBackgroundClosedRequested;
+        private bool disposedValue;
 
         public bool TrySetMicaBackdrop()
         {
@@ -42,9 +41,8 @@ namespace WinUiComponentsLibrary.Code.Helpers
 
                 // Hooking up the policy object
                 m_configurationSource = new Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration();
-                window.Activated += Window_Activated;
-                window.Closed += Window_Closed;
-                ((FrameworkElement)window.Content).ActualThemeChanged += Window_ThemeChanged;
+                window.Activated += WindowBackgroundHelpers_Activated;
+                ((FrameworkElement)window.Content).ActualThemeChanged += WindowBackgroundHelpers_ThemeChanged;
 
                 // Initial configuration state.
                 m_configurationSource.IsInputActive = true;
@@ -71,9 +69,8 @@ namespace WinUiComponentsLibrary.Code.Helpers
 
                 // Hooking up the policy object
                 m_configurationSource = new Microsoft.UI.Composition.SystemBackdrops.SystemBackdropConfiguration();
-                window.Activated += Window_Activated;
-                window.Closed += Window_Closed;
-                ((FrameworkElement)window.Content).ActualThemeChanged += Window_ThemeChanged;
+                window.Activated += WindowBackgroundHelpers_Activated;
+                ((FrameworkElement)window.Content).ActualThemeChanged += WindowBackgroundHelpers_ThemeChanged;
 
                 // Initial configuration state.
                 m_configurationSource.IsInputActive = true;
@@ -91,39 +88,13 @@ namespace WinUiComponentsLibrary.Code.Helpers
             return false; // Acrylic is not supported on this system
         }
 
-
-
-        private void Window_Activated(object sender, WindowActivatedEventArgs args)
+        private void WindowBackgroundHelpers_Activated(object sender, WindowActivatedEventArgs args)
         {
-            m_configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
-            WinBackgroundActivatedRequested?.Invoke(sender, args);
+            if (m_configurationSource != null)
+                m_configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
         }
 
-        private void Window_Closed(object sender, WindowEventArgs args)
-        {
-            // Make sure any Mica/Acrylic controller is disposed so it doesn't try to
-            // use this closed window.
-            if (m_micaController != null)
-            {
-                m_micaController.Dispose();
-                m_micaController = null;
-            }
-
-            // Make sure any Mica/Acrylic controller is disposed so it doesn't try to
-            // use this closed window.
-            if (m_acrylicController != null)
-            {
-                m_acrylicController.Dispose();
-                m_acrylicController = null;
-            }
-
-            window.Activated -= Window_Activated;
-            m_configurationSource = null;
-            appWindow.Destroy();
-            WinBackgroundClosedRequested?.Invoke(sender, args);
-        }
-
-        private void Window_ThemeChanged(FrameworkElement sender, object args)
+        private void WindowBackgroundHelpers_ThemeChanged(FrameworkElement sender, object args)
         {
             if (m_configurationSource != null)
             {
@@ -139,6 +110,57 @@ namespace WinUiComponentsLibrary.Code.Helpers
                 case ElementTheme.Light: m_configurationSource.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Light; break;
                 case ElementTheme.Default: m_configurationSource.Theme = Microsoft.UI.Composition.SystemBackdrops.SystemBackdropTheme.Default; break;
             }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: supprimer l'état managé (objets managés)
+                    // Make sure any Mica/Acrylic controller is disposed so it doesn't try to
+                    // use this closed window.
+                    if (m_micaController != null)
+                    {
+                        m_micaController.Dispose();
+                        m_micaController = null;
+                    }
+
+                    // Make sure any Mica/Acrylic controller is disposed so it doesn't try to
+                    // use this closed window.
+                    if (m_acrylicController != null)
+                    {
+                        m_acrylicController.Dispose();
+                        m_acrylicController = null;
+                    }
+
+                    window.Activated -= WindowBackgroundHelpers_Activated;
+                    m_configurationSource = null;
+                    if (!isMainWindow)
+                    {
+                        appWindow.Destroy();
+                    }
+                }
+
+                // TODO: libérer les ressources non managées (objets non managés) et substituer le finaliseur
+                // TODO: affecter aux grands champs une valeur null
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: substituer le finaliseur uniquement si 'Dispose(bool disposing)' a du code pour libérer les ressources non managées
+        // ~WindowBackgroundHelpers()
+        // {
+        //     // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Ne changez pas ce code. Placez le code de nettoyage dans la méthode 'Dispose(bool disposing)'
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
