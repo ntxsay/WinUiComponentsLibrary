@@ -137,10 +137,11 @@ namespace WinUiComponentsLibrary.Code.Helpers
 
                     window.Activated -= WindowBackgroundHelpers_Activated;
                     m_configurationSource = null;
-                    if (!isMainWindow)
-                    {
-                        appWindow.Destroy();
-                    }
+                    //if (!isMainWindow)
+                    //{
+                    //    appWindow.Destroy();
+                    //}
+                    appWindow.Destroy();
                 }
 
                 // TODO: libérer les ressources non managées (objets non managés) et substituer le finaliseur
