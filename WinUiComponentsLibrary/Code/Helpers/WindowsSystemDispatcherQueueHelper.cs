@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
-    internal class WindowsSystemDispatcherQueueHelper
+    public class WindowsSystemDispatcherQueueHelper
     {
         [StructLayout(LayoutKind.Sequential)]
         struct DispatcherQueueOptions

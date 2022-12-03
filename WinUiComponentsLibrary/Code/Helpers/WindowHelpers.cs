@@ -51,13 +51,16 @@ namespace WinUiComponentsLibrary.Code.Helpers
 
         static public Window CreateWindow()
         {
-            Window newWindow = new();
+            Window newWindow = new Window();
             TrackWindow(newWindow);
             return newWindow;
         }
 
         static public void TrackWindow(Window window)
         {
+            if (window == null)
+                return;
+
             window.Closed += (sender, args) => {
                 _activeWindows.Remove(window);
             };
@@ -79,9 +82,22 @@ namespace WinUiComponentsLibrary.Code.Helpers
             return null;
         }
 
-        static public List<Window> ActiveWindows => _activeWindows;
+        static public UIElement FindElementByName(UIElement element, string name)
+        {
+            if (element.XamlRoot != null && element.XamlRoot.Content != null)
+            {
+                var ele = (element.XamlRoot.Content as FrameworkElement).FindName(name);
+                if (ele != null)
+                {
+                    return ele as UIElement;
+                }
+            }
+            return null;
+        }
 
-        static private List<Window> _activeWindows = new();
+        static public List<Window> ActiveWindows { get { return _activeWindows; } }
+
+        static private List<Window> _activeWindows = new List<Window>();
     }
 
 }
