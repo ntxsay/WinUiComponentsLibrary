@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using WinRT.Interop;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
@@ -95,9 +97,49 @@ namespace WinUiComponentsLibrary.Code.Helpers
             return null;
         }
 
-        static public List<Window> ActiveWindows { get { return _activeWindows; } }
+        static public List<Window> ActiveWindows => _activeWindows;
 
-        static private List<Window> _activeWindows = new List<Window>();
+        static private List<Window> _activeWindows = new ();
+
+        /// <summary>
+        /// Obtient une valeur booléenne indiquant si un <see cref="ContentDialog"/> est ouvert dans la fenêtre actuelle
+        /// </summary>
+        /// <param name="window">fenêtre actuelle</param>
+        /// <returns></returns>
+        public static bool IsAnyContentDialogOpened(Window window)
+        {
+            if (window == null) return false;
+            var openedpopups = VisualTreeHelper.GetOpenPopups(window);
+            foreach (var popup in openedpopups)
+            {
+                if (popup.Child is ContentDialog)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Obtient une valeur booléenne indiquant si un <see cref="ContentDialog"/> est ouvert dans le <see cref="XamlRoot"/> spécifié
+        /// </summary>
+        /// <param name="xamlRoot">XamlRoot spécifié</param>
+        /// <returns></returns>
+        public static bool IsAnyContentDialogOpened(XamlRoot xamlRoot)
+        {
+            if (xamlRoot == null) return false;
+            var openedpopups = VisualTreeHelper.GetOpenPopupsForXamlRoot(xamlRoot);
+            foreach (var popup in openedpopups)
+            {
+                if (popup.Child is ContentDialog)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
 }

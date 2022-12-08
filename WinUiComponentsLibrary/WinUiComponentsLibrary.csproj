@@ -74,10 +74,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\Helpers\Window\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Views\IconableHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
