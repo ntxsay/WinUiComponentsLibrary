@@ -11,6 +11,8 @@ using WinRT.Interop;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
 
+//https://github.com/dotMorten/WinUIEx/blob/183b8acde8578376520181beac387dfee9d8a440/src/WinUIEx/WindowExtensions.cs
+
 namespace WinUiComponentsLibrary.Code.Helpers
 {
     public enum Monitor_DPI_Type : int
@@ -51,7 +53,13 @@ namespace WinUiComponentsLibrary.Code.Helpers
             return AppWindow.GetFromWindowId(wndId);
         }
 
-        
+        /// <summary>
+        /// Get WindowHandle for a Window
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static IntPtr GetWindowHandleForCurrentWindow(object target) => WindowNative.GetWindowHandle(target);
+
 
         static public Window CreateWindow()
         {

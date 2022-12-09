@@ -16,7 +16,6 @@
     <PRIResource Remove="Helpers\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Code\Extensions\HwndExtensions.cs" />
     <Compile Remove="Views\CustomRichEditBox.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +87,5 @@
     <Page Update="Views\IconableHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Code\Extensions\" />
   </ItemGroup>
 </Project>

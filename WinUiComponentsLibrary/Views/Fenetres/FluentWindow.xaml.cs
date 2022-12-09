@@ -3,9 +3,12 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Windows.Graphics;
 using WinRT;
+using WinRT.Interop;
 using WinUiComponentsLibrary.Code;
 using WinUiComponentsLibrary.Code.Helpers;
 
@@ -35,35 +38,7 @@ namespace WinUiComponentsLibrary.Views.Fenetres
             InitializeBackground();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="isMaximizable"></param>
-        /// <param name="isMinimizable"></param>
-        /// <param name="isAlwaysOnTop"></param>
-        /// <param name="isResizable"></param>
-        /// <param name="resizeConstraint"></param>
-        public virtual void SetWindowOverlappedOptions(bool? isMaximizable = null, bool? isMinimizable = null, bool? isAlwaysOnTop = null, bool? isResizable = null, SizeInt32? resizeConstraint = null)
-        {
-            if (resizeConstraint != null)
-                m_AppWindow.Resize((SizeInt32)resizeConstraint);
-
-            if (isMaximizable == null && isAlwaysOnTop == null && isMinimizable == null && isResizable == null)
-                return;
-
-            OverlappedPresenter _presenter = m_AppWindow.Presenter as OverlappedPresenter;
-            if (isResizable != null)
-            _presenter.IsResizable = (bool)isResizable;
-
-            if (isMaximizable != null)
-                _presenter.IsMaximizable = (bool)isMaximizable;
-
-            if (isAlwaysOnTop != null)
-                _presenter.IsAlwaysOnTop = (bool)isAlwaysOnTop;
-            
-            if (isMinimizable != null)
-            _presenter.IsMinimizable = (bool)isMinimizable;
-        }
+        
 
         #region Background
         BackdropType m_currentBackdrop;
@@ -342,6 +317,5 @@ namespace WinUiComponentsLibrary.Views.Fenetres
             }
         }
         #endregion
-
     }
 }
