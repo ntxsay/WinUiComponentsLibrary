@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Graphics;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
@@ -34,6 +35,19 @@ namespace WinUiComponentsLibrary.Code.Helpers
 
         public static void RegisterWindowMinMax(this Window window)
         {
+            //Get the Window's HWND
+            var hwnd = WindowHelpers.GetWindowHandleForCurrentWindow(window);
+
+            newWndProc = new NativeMethods.WinProc(WndProc);
+            oldWndProc = NativeMethods.SetWindowLongPtr(hwnd, NativeMethods.WindowLongIndexFlags.GWL_WNDPROC, newWndProc);
+        }
+
+        public static void RegisterWindowMinMax(this Window window, SizeInt32 newMinSizeConstraint, SizeInt32 newMaxSizeConstraint)
+        {
+            MinWindowWidth = newMinSizeConstraint.Width;
+            MinWindowHeight = newMinSizeConstraint.Height;
+            MaxWindowWidth = newMaxSizeConstraint.Width;
+            MaxWindowHeight = newMaxSizeConstraint.Height;
             //Get the Window's HWND
             var hwnd = WindowHelpers.GetWindowHandleForCurrentWindow(window);
 
