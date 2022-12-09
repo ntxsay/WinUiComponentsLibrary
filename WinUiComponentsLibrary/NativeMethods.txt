@@ -1,0 +1,3 @@
+﻿using Windows.Win32;
+PInvoke.CreateFile(/*args*/);
+ShowWindow

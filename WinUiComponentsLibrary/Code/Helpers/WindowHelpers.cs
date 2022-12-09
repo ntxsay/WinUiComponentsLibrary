@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using WinRT.Interop;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Controls;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
@@ -50,6 +50,8 @@ namespace WinUiComponentsLibrary.Code.Helpers
             WindowId wndId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
             return AppWindow.GetFromWindowId(wndId);
         }
+
+        
 
         static public Window CreateWindow()
         {
