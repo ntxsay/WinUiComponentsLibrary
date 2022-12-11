@@ -1,0 +1,30 @@
+<!-- Copyright (c) Microsoft Corporation and Contributors. -->
+<!-- Licensed under the MIT License. -->
+
+<Grid Height="48" VerticalAlignment="Top" Margin="60, 0, 0, 0"
+    x:Class="WinUiComponentsLibrary.Views.UserControls.CustomTitleBarV1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUiComponentsLibrary.Views.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="LeftContentColumn" Width="Auto"/>
+        <ColumnDefinition x:Name="LeftDragColumn" Width="*"/>
+        <ColumnDefinition x:Name="MiddleContentColumn" Width="Auto"/>
+        <ColumnDefinition x:Name="RightDragColumn" Width="*"/>
+        <ColumnDefinition x:Name="RightContentColumn" Width="0"/>
+    </Grid.ColumnDefinitions>
+    <Grid Grid.Column="0" x:Name="LeftContentContainer">
+        <TextBlock x:Name="TitleTextBlock"  Text="App title"  Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" />
+    </Grid>
+    <Grid Grid.Column="2" x:Name="MiddleContentContainer">
+        
+    </Grid>
+    <!--<AutoSuggestBox Grid.Column="2" QueryIcon="Find"
+                    PlaceholderText="Search"
+                    VerticalAlignment="Center"
+                    Width="260" Margin="4,0"/>-->
+    <FontIcon Grid.Column="3" HorizontalAlignment="Right" Glyph="&#xE713;"/>
+</Grid>

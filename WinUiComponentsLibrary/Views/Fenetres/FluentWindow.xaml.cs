@@ -22,7 +22,7 @@ namespace WinUiComponentsLibrary.Views.Fenetres
     /// </summary>
     public partial class FluentWindow : Window, IBackdropHelpers
     {
-        protected readonly AppWindow m_AppWindow;
+        public readonly AppWindow m_AppWindow;
         private readonly Microsoft.UI.Windowing.OverlappedPresenter overlappedPresenter;
 
         public FluentWindow()

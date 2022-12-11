@@ -27,6 +27,7 @@
     <None Remove="Views\InlineEditor.xaml" />
     <None Remove="Views\RtfEditor.xaml" />
     <None Remove="Views\RtfEditorAddlinkCD.xaml" />
+    <None Remove="Views\UserControls\CustomTitleBarV1.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Page Remove="Views\CustomRichEditBox.xaml" />
@@ -85,6 +86,12 @@
 
   <ItemGroup>
     <Page Update="Views\IconableHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\UserControls\CustomTitleBarV1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
