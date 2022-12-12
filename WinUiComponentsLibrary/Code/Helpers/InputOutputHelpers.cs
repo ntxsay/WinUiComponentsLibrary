@@ -11,6 +11,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using WinRT.Interop;
+using Windows.Media.Core;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
@@ -202,6 +203,53 @@ namespace WinUiComponentsLibrary.Code.Helpers
                 return null;
             }
         }
+
+        public static async Task<MediaSource> VideoFromFileAsync(string videoFile)
+        {
+            try
+            {
+                if (videoFile.IsStringNullOrEmptyOrWhiteSpace())
+                {
+#warning "Logging"
+                    return null;
+                }
+
+                MediaSource mediaSource = null;
+
+                if (videoFile.StartsWith("ms-appx:///"))
+                {
+                    Uri uri = new (videoFile);
+                    mediaSource = MediaSource.CreateFromUri(uri);
+
+                    return mediaSource;
+                }
+                else if (videoFile.StartsWith("http") || videoFile.StartsWith("ftp"))
+                {
+                    //var uri = new System.Uri(videoFile);
+                    //var randomAccessStreamReference = RandomAccessStreamReference.CreateFromUri(uri);
+                    //using (IRandomAccessStream stream = await randomAccessStreamReference.OpenReadAsync())
+                    //{
+                    //    await image.SetSourceAsync(stream);
+                    //}
+                    //return image;
+                }
+                else if (System.IO.File.Exists(videoFile))
+                {
+                    StorageFile storageFile = await StorageFile.GetFileFromPathAsync(videoFile);
+                    mediaSource = MediaSource.CreateFromStorageFile(storageFile);
+                    return mediaSource;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Logs.Log(className: nameof(InputOutputHelpers), exception: ex);
+                return null;
+            }
+
+        }
+
 
         public static async Task<BitmapImage> BitmapImageFromFileAsync(string imageFileName)
         {
