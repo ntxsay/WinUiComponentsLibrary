@@ -38,9 +38,10 @@ namespace WinUiComponentsLibrary.Views.Fenetres
             InitializeBackground();
         }
 
-        
+
 
         #region Background
+        public WindowActivationState WindowActivationState { get; private set; }
         BackdropType m_currentBackdrop;
         WindowsSystemDispatcherQueueHelper m_wsdqHelper;
         Microsoft.UI.Composition.SystemBackdrops.MicaController m_micaController;
@@ -103,6 +104,7 @@ namespace WinUiComponentsLibrary.Views.Fenetres
 
         public virtual void Window_Activated(object sender, WindowActivatedEventArgs args)
         {
+            WindowActivationState = args.WindowActivationState;
             if (m_configurationSource != null)
                 m_configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
         }
