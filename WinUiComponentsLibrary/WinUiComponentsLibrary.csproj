@@ -45,10 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AppHelpers\AppHelpers\AppHelpers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Views\Fenetres\FluentWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
