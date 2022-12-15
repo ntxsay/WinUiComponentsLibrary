@@ -75,6 +75,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AppHelpers\AppHelpersStd20\AppHelpersStd20.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Views\ClosableIconablePivotItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

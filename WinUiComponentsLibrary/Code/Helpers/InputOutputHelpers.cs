@@ -1,5 +1,5 @@
-﻿using AppHelpers.Extensions;
-using AppHelpers;
+﻿using AppHelpersStd20.Extensions;
+using AppHelpersStd20;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml;
 using System;
