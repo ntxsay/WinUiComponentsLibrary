@@ -261,7 +261,7 @@ namespace WinUiComponentsLibrary.Code.Helpers
                     return null;
                 }
 
-                BitmapImage image = new BitmapImage();
+                BitmapImage image = new ();
 
                 if (imageFileName.StartsWith("ms-appx:///"))
                 {
