@@ -68,6 +68,16 @@ namespace WinUiComponentsLibrary.Views.UserControls
             this.MiddleContentContainer.Children.Add(uIElement);
         }
 
+        /// <summary>
+        /// Ajoute un élément d'interface dans le contenu de droite
+        /// </summary>
+        /// <param name="uIElement">Elément d'interface</param>
+        public void AddElementToRightContent(UIElement uIElement)
+        {
+            if (uIElement == null) return;
+            this.RightContentContainer.Children.Add(uIElement);
+        }
+
         public CustomTitleBarV1(Window _window, AppWindow _appWindow)
         {
             this.InitializeComponent();
@@ -123,12 +133,13 @@ namespace WinUiComponentsLibrary.Views.UserControls
             // Currently only supported on Windows 11.
             if (AppWindowTitleBar.IsCustomizationSupported() && appWindow.TitleBar.ExtendsContentIntoTitleBar)
             {
+                double marginLeftMenu = this.Margin.Left;
                 double scaleAdjustment = WindowHelpers.GetScaleAdjustment(window);
                 double rightPadding = appWindow.TitleBar.RightInset / scaleAdjustment;
                 double leftPadding = appWindow.TitleBar.LeftInset / scaleAdjustment;
                 int titleBarHeight = (int)(this.ActualHeight * scaleAdjustment);
 
-                this.RightContentColumn.Width = new GridLength(rightPadding);
+                this.RightDragColumn.Width = new GridLength(rightPadding + 4);
 
                 List<Windows.Graphics.RectInt32> dragRectsList = new();
 
@@ -148,12 +159,12 @@ namespace WinUiComponentsLibrary.Views.UserControls
 
                 //Deuxième zone draggable Après la barre de recherche aux button - 0 x
                 Windows.Graphics.RectInt32 dragRectR;
-                dragRectR.X = (int)((this.LeftContentColumn.ActualWidth
+                dragRectR.X = (int)((marginLeftMenu + this.LeftContentColumn.ActualWidth
                                     + this.LeftDragColumn.ActualWidth
                                     + this.MiddleContentColumn.ActualWidth) * scaleAdjustment);
                 dragRectR.Y = 0;
                 dragRectR.Height = titleBarHeight;
-                dragRectR.Width = (int)(this.RightDragColumn.ActualWidth * scaleAdjustment);
+                dragRectR.Width = (int)(this.MiddleDragColumn.ActualWidth * scaleAdjustment);
                 dragRectsList.Add(dragRectR);
 
                 Windows.Graphics.RectInt32[] dragRects = dragRectsList.ToArray();

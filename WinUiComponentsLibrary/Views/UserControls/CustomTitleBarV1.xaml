@@ -13,8 +13,9 @@
         <ColumnDefinition x:Name="LeftContentColumn" Width="Auto"/>
         <ColumnDefinition x:Name="LeftDragColumn" Width="*"/>
         <ColumnDefinition x:Name="MiddleContentColumn" Width="Auto"/>
-        <ColumnDefinition x:Name="RightDragColumn" Width="*"/>
-        <ColumnDefinition x:Name="RightContentColumn" Width="0"/>
+        <ColumnDefinition x:Name="MiddleDragColumn" Width="*"/>
+        <ColumnDefinition x:Name="RightContentColumn" Width="Auto"/>
+        <ColumnDefinition x:Name="RightDragColumn" Width="0"/>
     </Grid.ColumnDefinitions>
     <Grid Grid.Column="0" x:Name="LeftContentContainer">
         <TextBlock x:Name="TitleTextBlock"  Text="App title"  Style="{StaticResource CaptionTextBlockStyle}" VerticalAlignment="Center" />
@@ -22,9 +23,12 @@
     <Grid Grid.Column="2" x:Name="MiddleContentContainer">
         
     </Grid>
+    <Grid Grid.Column="4" x:Name="RightContentContainer" VerticalAlignment="Top">
+        <!--<FontIcon HorizontalAlignment="Right" Glyph="&#xE713;"/>-->
+    </Grid>
     <!--<AutoSuggestBox Grid.Column="2" QueryIcon="Find"
                     PlaceholderText="Search"
                     VerticalAlignment="Center"
                     Width="260" Margin="4,0"/>-->
-    <FontIcon Grid.Column="3" HorizontalAlignment="Right" Glyph="&#xE713;"/>
+    
 </Grid>
