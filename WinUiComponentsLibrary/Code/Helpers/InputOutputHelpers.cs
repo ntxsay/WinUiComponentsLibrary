@@ -1,17 +1,18 @@
-﻿using AppHelpersStd20.Extensions;
-using AppHelpersStd20;
-using Microsoft.UI.Xaml.Media.Imaging;
+﻿using AppHelpersStd20;
+using AppHelpersStd20.Extensions;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Media.Core;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.Storage;
 using WinRT.Interop;
-using Windows.Media.Core;
 
 namespace WinUiComponentsLibrary.Code.Helpers
 {
@@ -250,6 +251,60 @@ namespace WinUiComponentsLibrary.Code.Helpers
 
         }
 
+        public async static Task<byte[]> FileToBytesAsync(string file)
+        {
+            if (file.IsStringNullOrEmptyOrWhiteSpace() || !System.IO.File.Exists(file))
+                return null;
+
+            using FileStream fileStream = File.OpenRead(file);
+            using MemoryStream memoryStream = new();
+            await fileStream.CopyToAsync(memoryStream);
+            byte[] byteArray = memoryStream.ToArray();
+
+            return byteArray;
+        }
+
+
+        public async static Task<byte[]> FileToBytesAsync(StorageFile storageFile)
+        {
+            if (storageFile == null)
+                return null;
+
+            using (Stream stream = await storageFile.OpenStreamForReadAsync())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+
+                    await stream.CopyToAsync(memoryStream);
+                    byte[] result = memoryStream.ToArray();
+                    return result;
+                }
+            }
+        }
+
+        public async static Task<byte[]> ImageToBytesAsync(BitmapImage image)
+        {
+            if (image == null || image.UriSource == null)
+                return null;
+
+            RandomAccessStreamReference streamRef = RandomAccessStreamReference.CreateFromUri(image.UriSource);
+            IRandomAccessStreamWithContentType streamWithContent = await streamRef.OpenReadAsync();
+            byte[] buffer = new byte[streamWithContent.Size];
+            await streamWithContent.ReadAsync(buffer.AsBuffer(), (uint)streamWithContent.Size, InputStreamOptions.None);
+            return buffer;
+        }
+
+        public async static Task<BitmapImage> ImageFromBytes(byte[] bytes)
+        {
+            BitmapImage image = new();
+            using (InMemoryRandomAccessStream stream = new())
+            {
+                await stream.WriteAsync(bytes.AsBuffer());
+                stream.Seek(0);
+                await image.SetSourceAsync(stream);
+            }
+            return image;
+        }
 
         public static async Task<BitmapImage> BitmapImageFromFileAsync(string imageFileName)
         {
@@ -271,6 +326,7 @@ namespace WinUiComponentsLibrary.Code.Helpers
                     {
                         await image.SetSourceAsync(stream);
                     }
+                    image.UriSource = uri;
                     return image;
                     //return new BitmapImage(new Uri(imageFileName));
                 }
@@ -282,6 +338,7 @@ namespace WinUiComponentsLibrary.Code.Helpers
                     {
                         await image.SetSourceAsync(stream);
                     }
+                    image.UriSource = uri;
                     return image;
                 }
                 else if (System.IO.File.Exists(imageFileName))
@@ -291,6 +348,7 @@ namespace WinUiComponentsLibrary.Code.Helpers
                     {
                         await image.SetSourceAsync(stream);
                     }
+
                     return image;
                 }
 
