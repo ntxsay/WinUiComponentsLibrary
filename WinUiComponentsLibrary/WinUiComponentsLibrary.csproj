@@ -28,6 +28,7 @@
     <None Remove="Views\RtfEditor.xaml" />
     <None Remove="Views\RtfEditorAddlinkCD.xaml" />
     <None Remove="Views\UserControls\CustomTitleBarV1.xaml" />
+    <None Remove="Views\UserControls\LoginButton.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Page Remove="Views\CustomRichEditBox.xaml" />
@@ -76,6 +77,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\AppHelpers\AppHelpersStd20\AppHelpersStd20.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\UserControls\LoginButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

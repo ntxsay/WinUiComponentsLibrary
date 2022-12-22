@@ -1,6 +1,7 @@
 ﻿using AppHelpersStd20;
 using AppHelpersStd20.Extensions;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.Generic;
@@ -386,5 +387,93 @@ namespace WinUiComponentsLibrary.Code.Helpers
                 return null;
             }
         }
+
+        public static async Task<ImageSource> ImageFromFileAsync(string imageFileName)
+        {
+            try
+            {
+                if (imageFileName.IsStringNullOrEmptyOrWhiteSpace())
+                {
+#warning "Logging"
+                    return null;
+                }
+
+                ImageSource imageSource = null;
+
+                if (imageFileName.StartsWith("ms-appx:///"))
+                {
+                    var uri = new System.Uri(imageFileName);
+                    StorageFile storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+                    using (IRandomAccessStream stream = await storageFile.OpenAsync(FileAccessMode.Read))
+                    {
+                        if (System.IO.Path.GetExtension(storageFile.Name)?.ToLower() == ".svg")
+                        {
+                            imageSource = new SvgImageSource();
+                            await ((SvgImageSource)imageSource).SetSourceAsync(stream);
+                            ((SvgImageSource)imageSource).UriSource = uri;
+                        }
+                        else
+                        {
+                            imageSource = new BitmapImage();
+                            await ((BitmapImage)imageSource).SetSourceAsync(stream);
+                            ((BitmapImage)imageSource).UriSource = uri;
+                        }
+                    }
+                    return imageSource;
+                }
+                else if (imageFileName.StartsWith("http") || imageFileName.StartsWith("ftp"))
+                {
+                    Uri uri = new System.Uri(imageFileName);
+                    RandomAccessStreamReference randomAccessStreamReference = RandomAccessStreamReference.CreateFromUri(uri);
+                    using (IRandomAccessStream stream = await randomAccessStreamReference.OpenReadAsync())
+                    {
+                        if (System.IO.Path.GetExtension(imageFileName)?.ToLower() == ".svg")
+                        {
+                            imageSource = new SvgImageSource();
+                            await ((SvgImageSource)imageSource).SetSourceAsync(stream);
+                            ((SvgImageSource)imageSource).UriSource = uri;
+                        }
+                        else
+                        {
+                            imageSource = new BitmapImage();
+                            await ((BitmapImage)imageSource).SetSourceAsync(stream);
+                            ((BitmapImage)imageSource).UriSource = uri;
+                        }
+                    }
+                    return imageSource;
+                }
+                else if (System.IO.File.Exists(imageFileName))
+                {
+                    System.Uri uri = new System.Uri(imageFileName);
+                    StorageFile storageFile = await StorageFile.GetFileFromPathAsync(imageFileName);
+                    using (IRandomAccessStream stream = await storageFile.OpenAsync(FileAccessMode.Read))
+                    {
+                        if (System.IO.Path.GetExtension(imageFileName)?.ToLower() == ".svg")
+                        {
+                            imageSource = new SvgImageSource();
+                            await ((SvgImageSource)imageSource).SetSourceAsync(stream);
+                            ((SvgImageSource)imageSource).UriSource = uri;
+                        }
+                        else
+                        {
+                            imageSource = new BitmapImage();
+                            await ((BitmapImage)imageSource).SetSourceAsync(stream);
+                            ((BitmapImage)imageSource).UriSource = uri;
+                        }
+                    }
+
+                    return imageSource;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Logs.Log(className: nameof(InputOutputHelpers), exception: ex);
+                return null;
+            }
+
+        }
+
     }
 }
