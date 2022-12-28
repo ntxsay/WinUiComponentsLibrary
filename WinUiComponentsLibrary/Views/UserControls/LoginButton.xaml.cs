@@ -41,5 +41,30 @@ namespace WinUiComponentsLibrary.Views.UserControls
                 }
             }
         }
+
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+            ResizePictureBoxInParent();
+        }
+
+        private void Button_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ResizePictureBoxInParent();
+        }
+
+        private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ResizePictureBoxInParent();
+        }
+
+        public void ResizePictureBoxInParent()
+        {
+            if (this.ActualWidth == 0 || this.ActualHeight == 0)
+                return;
+            this.Picture.Height = this.ActualHeight - (4 + this.Padding.Top + this.Padding.Bottom);
+            this.Picture.Width = this.ActualWidth - (4 + this.Padding.Left + this.Padding.Right);
+        }
+
+       
     }
 }

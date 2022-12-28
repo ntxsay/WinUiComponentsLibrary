@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Generic;
 using WinUiComponentsLibrary.Code.Helpers;
+using AppHelpersStd20.Extensions;
+using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -77,6 +80,8 @@ namespace WinUiComponentsLibrary.Views.UserControls
             if (uIElement == null) return;
             this.RightContentContainer.Children.Add(uIElement);
         }
+
+        public IEnumerable<T> GetChildsFromRightContent<T>(string name = null) where T : FrameworkElement => name.IsStringNullOrEmptyOrWhiteSpace() ? this.RightContentContainer.Children.OfType<T>() : this.RightContentContainer.Children.OfType<T>()?.Where(w => !w.Name.IsStringNullOrEmptyOrWhiteSpace() && w.Name == name);
 
         public CustomTitleBarV1(Window _window, AppWindow _appWindow)
         {
