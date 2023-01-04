@@ -1,0 +1,26 @@
+﻿<ContentDialog
+    x:Class="Auth0WinUI.Views.LoginContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Auth0WinUI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Title="TITLE"
+    Name="_dialog" CloseButtonText="Annuler">
+    <ContentDialog.Resources>
+    </ContentDialog.Resources>
+    <ContentDialog.TitleTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xECC8;" FontSize="22"/>
+                <TextBlock Text="{Binding ElementName=_dialog, Path=Title}"/>
+            </StackPanel>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
+    <ContentDialog.CornerRadius>
+        <CornerRadius>8</CornerRadius>
+    </ContentDialog.CornerRadius>
+    <Grid RowSpacing="48" >
+        <WebView2 x:Name="webView2" x:FieldModifier="internal" Width="800" MinHeight="600"/>
+    </Grid>
+</ContentDialog>
