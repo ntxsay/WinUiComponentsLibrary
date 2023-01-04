@@ -9,8 +9,10 @@ namespace Auth0WinUI.ViewModels
 {
     public class AuthenticateInfoVM
     {
-        public string AccessToken { get; set; }
-        public UserInfoVM UserInfo { get; set; }
+        public string AccessToken { get; init; }
+        public DateTimeOffset? AccessTokenExpiration { get; init; }
+        public UserInfoVM UserInfo { get; init; }
+        public bool IsAuthenticated { get; init; }
     }
 
     public class UserInfoVM
