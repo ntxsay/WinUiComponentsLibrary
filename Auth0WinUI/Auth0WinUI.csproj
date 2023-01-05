@@ -17,6 +17,7 @@
 
   <ItemGroup>
       <PackageReference Include="Auth0.OidcClient.Core" Version="3.2.6" />
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
   </ItemGroup>
