@@ -22,7 +22,7 @@ namespace Auth0WinUI
         public Auth0Client(XamlRoot xamlRoot, Auth0ClientOptions options)
             : base(options, "winui")
         {
-            options.Browser ??= new WebBrowserBrowser(xamlRoot);
+            options.Browser ??= new WebBrowserContentDialog(xamlRoot);
         }
     }
 }

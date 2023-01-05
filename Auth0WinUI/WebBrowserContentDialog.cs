@@ -14,7 +14,7 @@ namespace Auth0WinUI
     /// <summary>
     /// Implements the <see cref="IBrowser"/> interface using <see cref="WebBrowser"/>.
     /// </summary>
-    public class WebBrowserBrowser : IBrowser
+    public class WebBrowserContentDialog : IBrowser
     {
         private readonly Func<Window> _windowFactory;
         private readonly Func<LoginContentDialog> _contentDialogFactory;
@@ -22,12 +22,12 @@ namespace Auth0WinUI
         private readonly XamlRoot xamlRoot;
 
         /// <summary>
-        /// Create a new instance of <see cref="WebBrowserBrowser"/> with a custom Window factory and optional flag to indicate if the window should be closed.
+        /// Create a new instance of <see cref="WebBrowserContentDialog"/> with a custom Window factory and optional flag to indicate if the window should be closed.
         /// </summary>
         /// <param name="windowFactory">A function that returns a <see cref="Window"/> to be used for hosting the browser.</param>
         /// <param name="shouldCloseWindow"> Whether the Window should be closed or not after completion.</param>
         /// <example> 
-        /// This sample shows how to call the <see cref="WebBrowserBrowser(Func&lt;Window&gt;, bool)"/> constructor.
+        /// This sample shows how to call the <see cref="WebBrowserContentDialog(Func&lt;Window&gt;, bool)"/> constructor.
         /// <code>
         /// Window ReturnWindow()
         /// {
@@ -36,25 +36,25 @@ namespace Auth0WinUI
         /// var browser = new WebBrowserBrowser(ReturnWindow, shouldCloseWindow: false); // specify false if you want the window to remain open
         /// </code>
         /// </example>
-        public WebBrowserBrowser(Func<Window> windowFactory, bool shouldCloseWindow = true)
+        public WebBrowserContentDialog(Func<Window> windowFactory, bool shouldCloseWindow = true)
         {
             _windowFactory = windowFactory;
             _shouldCloseWindow = shouldCloseWindow;
         }
 
-        public WebBrowserBrowser(Func<LoginContentDialog> contentDialogFactory, bool shouldCloseWindow = true)
+        public WebBrowserContentDialog(Func<LoginContentDialog> contentDialogFactory, bool shouldCloseWindow = true)
         {
             _contentDialogFactory = contentDialogFactory;
             _shouldCloseWindow = shouldCloseWindow;
         }
 
         /// <summary>
-        /// Create a new instance of <see cref="WebBrowserBrowser"/> that will create a customized <see cref="Window"/> as needed.
+        /// Create a new instance of <see cref="WebBrowserContentDialog"/> that will create a customized <see cref="Window"/> as needed.
         /// </summary>
         /// <param name="title">An optional <see cref="string"/> specifying the title of the form. Defaults to "Authenticating...".</param>
         /// <param name="width">An optional <see cref="int"/> specifying the width of the form. Defaults to 1024.</param>
         /// <param name="height">An optional <see cref="int"/> specifying the height of the form. Defaults to 768.</param>
-        public WebBrowserBrowser(XamlRoot _xamlRoot, string title = "Authenticating...")
+        public WebBrowserContentDialog(XamlRoot _xamlRoot, string title = "Authenticating...")
             : this(() => new LoginContentDialog
             {
                 Name = "WebAuthentication",
