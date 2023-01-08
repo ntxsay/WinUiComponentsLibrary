@@ -21,6 +21,6 @@
         <CornerRadius>8</CornerRadius>
     </ContentDialog.CornerRadius>
     <Grid RowSpacing="48" >
-        <WebView2 x:Name="webView2" x:FieldModifier="internal" Width="800" MinHeight="600" NavigationCompleted="WebView2_NavigationCompleted"/>
+        <WebView2 x:Name="webView2" x:FieldModifier="internal" Width="800" MinHeight="600" NavigationCompleted="WebView2_NavigationCompleted" ContextFlyout="{x:Null}"/>
     </Grid>
 </ContentDialog>

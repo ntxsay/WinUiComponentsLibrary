@@ -27,7 +27,7 @@ namespace Auth0WinUI
         /// <param name="windowFactory">A function that returns a <see cref="Window"/> to be used for hosting the browser.</param>
         /// <param name="shouldCloseWindow"> Whether the Window should be closed or not after completion.</param>
         /// <example> 
-        /// This sample shows how to call the <see cref="WebBrowserContentDialog(Func&lt;Window&gt;, bool)"/> constructor.
+        /// This sample shows how to call the <see cref="WebBrowserContentDialog(Func&lt;LoginContentDialog&gt;, bool)"/> constructor.
         /// <code>
         /// Window ReturnWindow()
         /// {
@@ -36,12 +36,6 @@ namespace Auth0WinUI
         /// var browser = new WebBrowserBrowser(ReturnWindow, shouldCloseWindow: false); // specify false if you want the window to remain open
         /// </code>
         /// </example>
-        public WebBrowserContentDialog(Func<Window> windowFactory, bool shouldCloseWindow = true)
-        {
-            _windowFactory = windowFactory;
-            _shouldCloseWindow = shouldCloseWindow;
-        }
-
         public WebBrowserContentDialog(Func<LoginContentDialog> contentDialogFactory, bool shouldCloseWindow = true)
         {
             _contentDialogFactory = contentDialogFactory;
@@ -71,8 +65,6 @@ namespace Auth0WinUI
         public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
         {
             LoginContentDialog contentDialog = _contentDialogFactory.Invoke();
-            //contentDialog.webView2.Width = xamlRoot.Size.Width;
-            //contentDialog.webView2.Height = xamlRoot.Size.Height;
 
             SemaphoreSlim signal = new SemaphoreSlim(0, 1);
 
@@ -119,28 +111,6 @@ namespace Auth0WinUI
             };
 
             await contentDialog.ShowAsync();
-
-            //try
-            //{
-            //    contentDialog.Content = browser;
-            //    await contentDialog.ShowAsync();
-
-            //    //old :  browser.Navigate(options.StartUrl);
-
-            //    await browser.EnsureCoreWebView2Async();
-            //    //A tester : webView.Source = new Uri(loginUrlAdress);
-            //    browser.CoreWebView2.Navigate(options.StartUrl);
-
-            //    await signal.WaitAsync();
-            //}
-            //finally
-            //{
-            //    if (_shouldCloseWindow)
-            //        contentDialog.Hide();
-            //    else
-            //        contentDialog.Content = null;
-            //}
-
             return result;
         }
     }
